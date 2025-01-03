@@ -4,17 +4,16 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({ origin: "https://communication-calender-iota.vercel.app" }));
 
-
+// CORS Configuration
+app.use(cors({ origin: "https://calendar-app-tau-ecru.vercel.app" }));
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB connection string (use environment variable for security)
-const dbURI = process.env.MONGODB_URI || "mongodb+srv://chandusiriyala7:chandusiriyala7@cluster0.4slmg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
+const dbURI = process.env.MONGODB_URI || "mongodb://localhost:27017/calendar";
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB"))
@@ -297,8 +296,6 @@ app.post("/api/communications", async (req, res) => {
   }
 });
 
-
-// GET: Retrieve all communications
 // GET: Retrieve all communications
 app.get("/api/communications", async (req, res) => {
   try {
@@ -309,9 +306,6 @@ app.get("/api/communications", async (req, res) => {
     res.status(500).json({ success: false, message: "Error retrieving communications.", error: error.message });
   }
 });
-
-
-
 
 app.put("/api/communications/:id", async (req, res) => {
   try {
@@ -363,7 +357,6 @@ app.delete("/api/communications/:id", async (req, res) => {
     });
   }
 });
-
 
 // --- SERVER STARTUP ---
 const PORT = process.env.PORT || 5000;
